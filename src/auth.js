@@ -346,8 +346,7 @@ async function downloadStart(env, url, user, body) {
   const token = randomToken(24);
   await env.DB.prepare('DELETE FROM download_tokens WHERE expires_at < ?').bind(now()).run();
   await env.DB.prepare('INSERT INTO download_tokens (token, user_id, expires_at) VALUES (?, ?, ?)').bind(token, user.id, now() + 10 * 60 * 1000).run();
-  const winReady = Boolean((env.GH_DOWNLOAD_TOKEN && env.GH_DOWNLOAD_REPO) || env.DOWNLOADS || env.DOWNLOAD_URL);
-  const available = platform === 'android' ? await apkAvailable(env, url) : winReady;
+  const available = platform === 'android' ? await apkAvailable(env, url) : Boolean(env.DOWNLOADS || env.DOWNLOAD_URL);
   return { url: url.origin + '/download/file?t=' + token + '&p=' + (platform === 'android' ? 'android' : 'win'), available };
 }
 
@@ -372,26 +371,6 @@ export async function downloadFile(env, url) {
         'Cache-Control': 'private, no-store',
       },
     });
-  }
-  // Private GitHub Release asset: the site fetches it with a stored token and streams it to the logged-in user,
-  // so the installer stays private (not publicly downloadable) and the download is still login-gated here.
-  if (env.GH_DOWNLOAD_TOKEN && env.GH_DOWNLOAD_REPO) {
-    const ghHeaders = (accept) => ({ Authorization: 'Bearer ' + env.GH_DOWNLOAD_TOKEN, Accept: accept, 'User-Agent': 'api-ground' });
-    const rel = await fetch('https://api.github.com/repos/' + env.GH_DOWNLOAD_REPO + '/releases/latest', { headers: ghHeaders('application/vnd.github+json') }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
-    const asset = rel?.assets?.find((a) => /\.exe$/i.test(a.name));
-    if (asset) {
-      const bin = await fetch(asset.url, { headers: ghHeaders('application/octet-stream'), redirect: 'follow' });
-      if (bin.ok && bin.body) {
-        const h = {
-          'Content-Type': 'application/vnd.microsoft.portable-executable',
-          'Content-Disposition': 'attachment; filename="' + asset.name + '"',
-          'Cache-Control': 'private, no-store',
-        };
-        const len = bin.headers.get('content-length');
-        if (len) h['Content-Length'] = len;
-        return new Response(bin.body, { headers: h });
-      }
-    }
   }
   if (env.DOWNLOADS) {
     const obj = await env.DOWNLOADS.get(DOWNLOAD_FILE);

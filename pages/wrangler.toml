@@ -11,5 +11,5 @@ database_id = "87dd6865-652a-452b-a094-888e6f479e66"
 
 [vars]
 APP_NAME = "API-Ground"
-# Windows 설치 파일이 올라간 비공개 GitHub 저장소. 접근 토큰은 비밀값 GH_DOWNLOAD_TOKEN 으로 따로 등록.
-GH_DOWNLOAD_REPO = "api-ground/downloads"
+# Windows 설치 파일 공개 다운로드 주소 (GitHub 공개 릴리스). 로그인한 사용자를 이 주소로 보냅니다.
+DOWNLOAD_URL = "https://github.com/api-ground/api-ground/releases/download/v1.1.0/API-Ground-Setup-1.1.0.exe"

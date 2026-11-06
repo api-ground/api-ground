@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>API-Ground — 모든 AI를 한곳에서</title>
+  <meta name="description" content="Claude, GPT, Gemini, Grok, Kimi, GLM, DeepSeek, NVIDIA 무료 모델까지. 내 API 키로 여러 AI와 대화하고, 아티팩트를 만들고, 코딩 에이전트에게 일을 맡기세요.">
+  <meta property="og:title" content="API-Ground">
+  <meta property="og:description" content="여러 AI API를 한곳에서 쓰는 워크스페이스">
+  <meta property="og:image" content="/img/logo.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="theme-color" content="#17a34a">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="logo" href="/"><img src="/img/logo.png" alt=""><span>API-Ground</span></a>
+      <nav class="links">
+        <a href="#features" data-i18n>기능</a>
+        <a href="#models" data-i18n>모델</a>
+        <a href="#code" data-i18n>Code</a>
+        <a href="#download" data-i18n>다운로드</a>
+        <a href="#faq" data-i18n>자주 묻는 질문</a>
+      </nav>
+      <div class="nav-right">
+        <select id="lang" aria-label="Language"></select>
+        <button class="icon" id="theme" aria-label="Theme"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+        <a class="btn ghost hide-sm" href="/app#/login" data-i18n>로그인</a>
+        <a class="btn primary" href="/app" data-i18n>무료로 시작하기</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-inner">
+        <span class="eyebrow" data-i18n>Claude · GPT · Gemini · Grok · Kimi · GLM · NVIDIA</span>
+        <h1 data-i18n>모든 AI를 한곳에서,<br>내 키로 자유롭게.</h1>
+        <p class="lead" data-i18n>API-Ground는 20개가 넘는 AI 공급자를 하나의 깔끔한 작업 공간으로 모았습니다. 대화하고, 아티팩트를 만들고, 코딩 에이전트에게 실제 프로젝트를 맡기세요.</p>
+        <div class="cta">
+          <a class="btn primary lg" href="/app" data-i18n>API-Ground 사용하기</a>
+          <a class="btn lg" href="#download"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span data-i18n>Windows / Android 다운로드</span></a>
+        </div>
+        <p class="fine" data-i18n>무료 · 회원가입 없이도 사용 가능 · API 키는 내 기기에만 저장</p>
+      </div>
+      <div class="wrap">
+        <div class="mock">
+          <div class="mock-bar"><span></span><span></span><span></span><b>API-Ground</b></div>
+          <div class="mock-body">
+            <aside class="mock-side">
+              <div class="ms-new">+ <span data-i18n>새 채팅</span></div>
+              <div class="ms-item on" data-i18n>로켓 발사 시뮬레이터</div>
+              <div class="ms-item" data-i18n>분기 보고서 요약</div>
+              <div class="ms-item" data-i18n>여행 일정 짜기</div>
+              <div class="ms-item" data-i18n>React 대시보드</div>
+            </aside>
+            <div class="mock-chat">
+              <div class="m-user" data-i18n>물리 법칙이 적용된 로켓 발사 시뮬레이터를 만들어줘</div>
+              <div class="m-ai">
+                <div class="m-think" data-i18n>4초 동안 생각함</div>
+                <p data-i18n>중력과 공기 저항을 반영한 시뮬레이터를 만들었습니다. 오른쪽 패널에서 바로 실행해 보세요.</p>
+                <div class="m-card"><span class="m-ic">&lt;/&gt;</span><div><b data-i18n>로켓 발사 시뮬레이터</b><small>HTML · v2</small></div></div>
+              </div>
+              <div class="m-input"><span data-i18n>답장하기...</span><span class="m-model"><img src="/img/brands/claude.svg" alt="">claude-opus-5-5</span></div>
+            </div>
+            <div class="mock-artifact">
+              <div class="ma-head"><b data-i18n>로켓 발사 시뮬레이터</b><span class="seg"><i class="on" data-i18n>미리보기</i><i data-i18n>코드</i></span></div>
+              <div class="ma-canvas"><div class="rocket"></div><div class="trail"></div><div class="ground"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="logos" id="models">
+      <div class="wrap">
+        <p class="section-eyebrow" data-i18n>지원하는 AI</p>
+        <h2 data-i18n>유명 모델부터 무료 오픈 모델까지</h2>
+        <div class="logo-grid" id="logoGrid"></div>
+        <p class="muted center" data-i18n>NVIDIA NIM의 무료 체험 키 하나로 Llama, Nemotron, Kimi, GLM, DeepSeek, Mistral 등 수십 개 모델을 써볼 수 있습니다.</p>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="wrap">
+        <p class="section-eyebrow" data-i18n>기능</p>
+        <h2 data-i18n>생각을 결과물로 바꾸는 데 필요한 모든 것</h2>
+        <div class="grid">
+          <article><div class="f-ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></div><h3 data-i18n>대화와 브랜치</h3><p data-i18n>메시지를 고치거나 다시 생성하면 갈래가 생기고, 언제든 이전 버전으로 돌아갈 수 있습니다. 응답 스타일과 확장 사고, 웹 검색도 켜고 끌 수 있습니다.</p></article>
+          <article><div class="f-ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg></div><h3 data-i18n>아티팩트</h3><p data-i18n>웹페이지, React 컴포넌트, SVG, 다이어그램, 문서를 대화 옆 패널에 바로 만들고 실행합니다. 버전별로 비교하고 내려받을 수 있습니다.</p></article>
+          <article><div class="f-ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div><h3 data-i18n>프로젝트</h3><p data-i18n>관련 채팅과 지침, 참고 자료를 한곳에 모으세요. 프로젝트 안의 모든 대화가 같은 맥락을 공유합니다.</p></article>
+          <article><div class="f-ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg></div><h3 data-i18n>메모리</h3><p data-i18n>"기억해줘"라고 말한 내용과 오래 가는 선호를 기억해 다음 대화에서도 참고합니다. 언제든 보고 지울 수 있습니다.</p></article>
+          <article><div class="f-ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a5 5 0 1 1 1-9.9A6 6 0 0 1 19 10a4 4 0 0 1-1 8z"/></svg></div><h3 data-i18n>동기화와 공유</h3><p data-i18n>이메일이나 Google로 로그인하면 여러 기기에서 대화가 이어지고, 링크 하나로 대화를 공유할 수 있습니다.</p></article>
+          <article><div class="f-ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div><h3 data-i18n>내게 맞는 화면</h3><p data-i18n>밝은 화면과 어두운 화면, 한국어·English·日本語를 지원합니다. 키보드 단축키로 더 빠르게 일하세요.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="code-sec" id="code">
+      <div class="wrap code-inner">
+        <div class="code-copy">
+          <p class="section-eyebrow" data-i18n>Code</p>
+          <h2 data-i18n>터미널처럼 일하는 코딩 에이전트</h2>
+          <p data-i18n>데스크톱 앱에서 폴더를 열면 에이전트가 실제 파일을 읽고 고치고, npm·python·git·테스트 명령을 실행합니다. 변경 사항은 diff로 보여주고, 실행 전에 허락을 구합니다.</p>
+          <ul>
+            <li data-i18n>편집 전 확인 · 자동 수락 · 계획 모드</li>
+            <li data-i18n>할 일 목록으로 진행 상황 표시</li>
+            <li data-i18n>AGENTS.md로 프로젝트 맥락 기억</li>
+            <li data-i18n>개발 서버 실행과 실시간 미리보기</li>
+          </ul>
+        </div>
+        <div class="terminal">
+          <div class="t-line user">&gt; <span data-i18n>할 일 앱에 다크 모드를 추가하고 테스트를 돌려줘</span></div>
+          <div class="t-line"><i class="dot ok"></i><b>Update Todos</b></div>
+          <div class="t-sub">☑ <span data-i18n>테마 변수 추가</span><br>◼ <span data-i18n>토글 버튼 구현</span><br>☐ <span data-i18n>테스트 실행</span></div>
+          <div class="t-line"><i class="dot ok"></i><b>Update</b> <span class="muted">(src/theme.css)</span></div>
+          <div class="t-diff"><div class="del">- --bg: #ffffff;</div><div class="add">+ --bg: var(--surface);</div><div class="add">+ [data-theme="dark"] { --surface: #1c1f1d; }</div></div>
+          <div class="t-line"><i class="dot ok"></i><b>Shell</b> <span class="muted">(npm test)</span></div>
+          <div class="t-sub">✓ 24 passed <span class="muted">· exit 0</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="steps">
+      <div class="wrap">
+        <p class="section-eyebrow" data-i18n>시작하기</p>
+        <h2 data-i18n>3분이면 충분합니다</h2>
+        <ol class="step-grid">
+          <li><b>1</b><h3 data-i18n>API 키 입력</h3><p data-i18n>쓰고 싶은 공급자의 키를 설정에 붙여넣으세요. 키는 내 기기에만 저장됩니다.</p></li>
+          <li><b>2</b><h3 data-i18n>모델 고르기</h3><p data-i18n>입력창의 모델 선택기에서 Claude, GPT, Gemini 등 원하는 모델을 고릅니다.</p></li>
+          <li><b>3</b><h3 data-i18n>대화하고 만들기</h3><p data-i18n>질문하고, 파일을 첨부하고, 아티팩트와 코드로 결과물을 완성하세요.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="download" id="download">
+      <div class="wrap dl-inner">
+        <img src="/img/logo.png" alt="" class="dl-logo">
+        <h2 data-i18n>어디서나 API-Ground</h2>
+        <p data-i18n>Windows 앱에서는 내 PC 폴더와 터미널을 쓰는 Code 모드를 사용할 수 있고, 휴대폰에서도 같은 계정으로 대화가 이어집니다.</p>
+        <div class="dl-grid">
+          <div class="dl-card">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M3 5.5 10 4.5v7H3zM11 4.4 21 3v8.5H11zM3 12.5h7v7l-7-1zM11 12.5h10V21l-10-1.4z"/></svg>
+            <h3>Windows</h3>
+            <p class="fine" data-i18n>Windows 10 이상 · 64비트</p>
+            <a class="btn primary" href="/download" data-platform="windows" data-i18n>Windows용 다운로드</a>
+          </div>
+          <div class="dl-card">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.86 3.22a11.4 11.4 0 0 0-9.84 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>
+            <h3>Android</h3>
+            <p class="fine" data-i18n>Android 6 이상 · APK 직접 설치</p>
+            <a class="btn primary" href="/download" data-platform="android" data-i18n>APK 다운로드</a>
+          </div>
+        </div>
+        <p class="fine"><span data-i18n>Windows · Android 앱은 로그인 후 다운로드할 수 있습니다</span> · <a href="/app" data-i18n>웹에서 바로 사용</a></p>
+        <p class="dl-status"></p>
+      </div>
+    </section>
+
+    <section class="faq" id="faq">
+      <div class="wrap narrow">
+        <h2 data-i18n>자주 묻는 질문</h2>
+        <details><summary data-i18n>무료인가요?</summary><p data-i18n>API-Ground 자체는 무료입니다. 각 AI 공급자의 API 요금은 해당 공급자에 직접 지불하며, NVIDIA NIM처럼 무료 체험을 제공하는 곳도 있습니다.</p></details>
+        <details><summary data-i18n>API 키는 안전한가요?</summary><p data-i18n>키는 브라우저나 앱 데이터에만 저장되고, 동기화 대상에서도 제외됩니다. 요청할 때만 해당 AI 공급자로 전달됩니다.</p></details>
+        <details><summary data-i18n>로그인해야 하나요?</summary><p data-i18n>아니요. 로그인 없이도 모든 기능을 쓸 수 있습니다. 로그인하면 여러 기기 간 동기화와 공유 링크를 사용할 수 있습니다.</p></details>
+        <details><summary data-i18n>어떤 모델을 쓸 수 있나요?</summary><p data-i18n>Claude, OpenAI, Gemini, Grok, DeepSeek, Kimi, GLM, Qwen, Mistral, MiniMax, NVIDIA NIM, Groq, OpenRouter, Together, Fireworks, Cerebras, SambaNova, Hugging Face, Cohere, Perplexity를 지원하며, 키를 입력하면 최신 모델 목록을 자동으로 불러옵니다.</p></details>
+      </div>
+    </section>
+
+    <section class="final">
+      <div class="wrap center">
+        <h2 data-i18n>지금 바로 시작해 보세요</h2>
+        <a class="btn primary lg" href="/app" data-i18n>API-Ground 사용하기</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap foot-inner">
+      <a class="logo" href="/"><img src="/img/logo.png" alt=""><span>API-Ground</span></a>
+      <nav><a href="/app" data-i18n>앱 열기</a><a href="#features" data-i18n>기능</a><a href="#faq" data-i18n>자주 묻는 질문</a><a href="/download" data-i18n>다운로드</a><a href="/privacy" data-i18n>개인정보 처리방침</a><a href="/terms" data-i18n>이용약관</a></nav>
+      <p class="muted" data-i18n>AI 브랜드 이름과 로고는 각 소유자의 상표입니다.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/site.js"></script>
+</body>
+</html>

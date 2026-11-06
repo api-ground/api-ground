@@ -1,0 +1,24 @@
+name = "api-playground"
+main = "src/worker.js"
+compatibility_date = "2025-06-01"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# 로그인·동기화·공유용 데이터베이스. 배포 전: npx wrangler d1 create api-playground 후 출력된 id로 교체
+[[d1_databases]]
+binding = "DB"
+database_name = "api-playground"
+database_id = "87dd6865-652a-452b-a094-888e6f479e66"
+
+[vars]
+APP_NAME = "API-Ground"
+
+# 비밀값 (npx wrangler secret put <이름>)
+# 서버측 API 키(선택): GEMINI_API_KEY, ANTHROPIC_API_KEY, OPENAI_API_KEY, XAI_API_KEY, NVIDIA_API_KEY ...
+# 사이트 접근 비밀번호(선택): ACCESS_PASSWORD
+# 이메일 로그인: RESEND_API_KEY, EMAIL_FROM (예: "API-Ground <login@yourdomain.com>")
+# Google 로그인: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
+# 데스크톱 앱 다운로드 주소(선택): DOWNLOAD_URL

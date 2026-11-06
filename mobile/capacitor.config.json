@@ -1,0 +1,13 @@
+{
+  "appId": "com.apiground.app",
+  "appName": "API-Ground",
+  "webDir": "www",
+  "server": {
+    "url": "https://api-ground.pages.dev/app",
+    "allowNavigation": ["api-ground.pages.dev"]
+  },
+  "android": {
+    "backgroundColor": "#1a1f1b",
+    "adjustMarginsForEdgeToEdge": "force"
+  }
+}

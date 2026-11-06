@@ -1,0 +1,15 @@
+# Cloudflare Pages deployment (https://api-ground.pages.dev). Build with: npm run deploy:pages
+name = "api-ground"
+pages_build_output_dir = "dist"
+compatibility_date = "2025-06-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "api-playground"
+database_id = "87dd6865-652a-452b-a094-888e6f479e66"
+
+[vars]
+APP_NAME = "API-Ground"
+# Windows 설치 파일이 올라간 비공개 GitHub 저장소. 접근 토큰은 비밀값 GH_DOWNLOAD_TOKEN 으로 따로 등록.
+GH_DOWNLOAD_REPO = "api-ground/downloads"

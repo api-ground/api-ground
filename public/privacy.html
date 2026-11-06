@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>개인정보 처리방침 · API-Ground</title>
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <link rel="stylesheet" href="/css/site.css">
+  <style>
+    .legal-page { max-width: 760px; margin: 0 auto; padding: 48px 16px 80px; line-height: 1.75; }
+    .legal-page h1 { font-size: 30px; margin: 0 0 6px; }
+    .legal-page h2 { font-size: 19px; margin: 34px 0 8px; }
+    .legal-page ul { padding-left: 20px; }
+    .legal-page table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 14.5px; }
+    .legal-page th, .legal-page td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+    .legal-page .muted { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header class="nav"><div class="wrap nav-inner"><a class="logo" href="/"><img src="/img/logo.png" alt=""><span>API-Ground</span></a></div></header>
+  <main class="legal-page">
+    <h1>개인정보 처리방침</h1>
+    <p class="muted">시행일: 2026년 11월 4일</p>
+    <p>API-Ground(이하 "서비스")는 웹사이트(api-ground.pages.dev), Windows 앱, Android 앱에서 다음과 같이 개인정보를 처리합니다. 로그인하지 않고도 서비스를 쓸 수 있으며, 이 경우 대화와 설정은 사용자의 기기에만 저장됩니다.</p>
+
+    <h2>1. 수집하는 정보</h2>
+    <table>
+      <tr><th>항목</th><th>언제</th><th>용도</th></tr>
+      <tr><td>이메일 주소, 이름</td><td>회원가입·로그인 시</td><td>계정 식별, 가입 환영 메일·로그인 인증 코드 발송</td></tr>
+      <tr><td>Google 계정 식별자, 프로필 사진</td><td>Google로 로그인 시</td><td>Google 로그인 연결, 프로필 표시</td></tr>
+      <tr><td>비밀번호(암호화된 값만 저장)</td><td>이메일로 가입 시</td><td>로그인 확인</td></tr>
+      <tr><td>대화·프로젝트·설정</td><td>로그인 후 동기화를 켠 경우</td><td>여러 기기에서 같은 내용을 보기 위한 동기화</td></tr>
+      <tr><td>공유한 대화 내용</td><td>공유 링크를 만든 경우</td><td>링크를 받은 사람에게 보여주기</td></tr>
+      <tr><td>로그인 기록(세션), 다운로드 기록</td><td>로그인·앱 다운로드 시</td><td>로그인 유지, 부정 사용 방지</td></tr>
+    </table>
+    <p><strong>저장하지 않는 정보:</strong> 사용자가 입력한 AI API 키는 사용자의 기기에만 저장됩니다. 대화를 보낼 때 API 키와 메시지는 선택한 AI 회사(Anthropic, OpenAI, Google 등)로 전달만 되며, 서비스 서버에 저장되지 않습니다. 이미지·PDF 첨부와 Code 모드 세션은 동기화하지 않습니다.</p>
+
+    <h2>2. 정보를 처리하는 곳 (위탁·제3자)</h2>
+    <ul>
+      <li><strong>Cloudflare</strong> — 웹사이트 호스팅과 데이터베이스(계정·동기화 데이터 저장)</li>
+      <li><strong>Google</strong> — Google 로그인, Gmail을 통한 메일 발송</li>
+      <li><strong>사용자가 선택한 AI 회사</strong> — 대화 요청 처리. 각 회사의 개인정보 처리방침이 적용됩니다.</li>
+    </ul>
+    <p>위 경우 외에는 개인정보를 판매하거나 다른 곳에 제공하지 않으며, 광고나 추적 도구를 쓰지 않습니다.</p>
+
+    <h2>3. 보관 기간과 삭제</h2>
+    <p>개인정보는 계정을 삭제할 때까지 보관하며, 계정을 삭제하면 계정 정보, 동기화 데이터, 공유 링크, 로그인 기록이 즉시 삭제됩니다.</p>
+    <p id="delete"><strong>계정 삭제 방법:</strong> 앱이나 웹사이트에서 <em>설정 → 계정 → 계정 삭제</em>를 누르세요. 앱에 접근할 수 없다면 가입한 이메일로 아래 연락처에 삭제를 요청하시면 7일 안에 처리합니다.</p>
+
+    <h2>4. 이용자의 권리</h2>
+    <p>언제든지 자신의 정보를 확인·수정·삭제하거나 처리 중단을 요청할 수 있습니다. 로그아웃하고 로그인 없이 사용하면 서버로 동기화되지 않습니다.</p>
+
+    <h2>5. 아동</h2>
+    <p>서비스는 만 14세 미만 아동을 대상으로 하지 않으며, 아동의 정보를 알고 수집하지 않습니다.</p>
+
+    <h2>6. 보안</h2>
+    <p>모든 통신은 HTTPS로 암호화되며, 비밀번호와 로그인 토큰은 복원할 수 없는 형태(해시)로만 저장합니다.</p>
+
+    <h2>7. 변경과 연락처</h2>
+    <p>이 방침이 바뀌면 이 페이지에 시행일과 함께 알립니다. 문의: <a href="mailto:api.ground.official@gmail.com">api.ground.official@gmail.com</a></p>
+  </main>
+</body>
+</html>

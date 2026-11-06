@@ -1,0 +1,73 @@
+{
+  "name": "api-ground",
+  "productName": "API-Ground",
+  "version": "1.1.0",
+  "description": "Claude, Gemini, GPT, Grok 등 여러 AI API를 한곳에서 쓰는 워크스페이스",
+  "author": "API-Ground",
+  "private": true,
+  "type": "module",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:pages": "node scripts/build-pages.mjs && cd pages && wrangler pages deploy --project-name api-ground --branch main",
+    "desktop": "electron .",
+    "dist": "node scripts/build-desktop.mjs",
+    "dist:raw": "electron-builder --win --x64"
+  },
+  "devDependencies": {
+    "electron": "^45.2.2",
+    "electron-builder": "^26.18.0",
+    "javascript-obfuscator": "^4.1.1",
+    "wrangler": "^4.157.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "workerd@1.20261103.1": true
+  },
+  "build": {
+    "appId": "com.apiground.desktop",
+    "productName": "API-Ground",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "electron/**",
+      "public/**",
+      "src/**",
+      "build/icon.png",
+      "package.json"
+    ],
+    "protocols": [
+      {
+        "name": "API-Ground",
+        "schemes": [
+          "apiground"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "API-Ground",
+      "artifactName": "API-Ground-Setup-${version}.exe"
+    }
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.4.0"
+  }
+}

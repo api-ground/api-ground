@@ -225,7 +225,10 @@ async function handleChat(request, env, body) {
     if (body.systemPrompt) payload.system_instruction = body.systemPrompt;
     const gc = {};
     if (p.maxTokens != null) gc.max_output_tokens = p.maxTokens;
-    if (tools.thinking) gc.thinking_summaries = 'auto';
+    // Gemini 3+ "thinks" before replying. Default to low thinking for fast chat; use high (with summaries) only
+    // when the user turns on extended thinking, so plain chat is not slow.
+    if (tools.thinking) { gc.thinking_level = 'high'; gc.thinking_summaries = 'auto'; }
+    else gc.thinking_level = 'low';
     // temperature / top_p / top_k are deprecated on Gemini 3+ and must not be sent.
     if (Object.keys(gc).length) payload.generation_config = gc;
     const t = [];

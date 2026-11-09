@@ -1,5 +1,5 @@
 import { app, persist, emit } from './state.js';
-import { h, icon, iconBtn, toast, uid, popover, menuItem, confirmDialog, promptDialog, downloadBlob, timeAgo, isTextFile, esc } from './ui.js';
+import { h, icon, iconBtn, toast, uid, popover, menuItem, confirmDialog, promptDialog, downloadBlob, timeAgo, isTextFile, esc, modal } from './ui.js';
 import { postJSON, currentModel, modelLabel, providerInfo, isGemini, hasKey } from './api.js';
 import { recordUsage, recordLimits, recordLimitError, fallbackCandidates, switchTo, switchActions, usageButton } from './usage.js';
 import { renderMarkdown } from './markdown.js';
@@ -79,8 +79,33 @@ ${WORK_RULES}
 
 Current files (${files.length}): ${files.length ? files.join(', ') : '(empty workspace)'}`;
   }
+  // User-defined context: a global default (settings) plus this session's own description and instructions.
+  const extra = [];
+  if (app.settings.codeInstructions?.trim()) extra.push(app.settings.codeInstructions.trim());
+  if (session.description?.trim()) extra.push('What this project is / what the user is building:\n' + session.description.trim());
+  if (session.instructions?.trim()) extra.push('Instructions for how to work on this project (follow these):\n' + session.instructions.trim());
+  if (extra.length) s += '\n\n# User instructions\n' + extra.join('\n\n');
   if (mode === 'plan') s += '\n\nPLAN MODE IS ACTIVE: you may only use read-only tools. Investigate as needed, then answer with a concise, concrete, numbered implementation plan. Do not try to modify files or run commands.';
   return s;
+}
+
+// Per-session description + instructions, folded into the Code agent's system prompt on every request.
+function codeInstructionsDialog(session) {
+  const desc = h('textarea', { rows: 3, placeholder: tr('예: 리액트로 만든 할 일 관리 앱. 로그인과 다크 모드가 있습니다.') });
+  desc.value = session.description || '';
+  const inst = h('textarea', { rows: 7, placeholder: tr('예: 답변은 한국어로. 바꾸기 전에 계획을 먼저 보여줘. 기존 코드 스타일을 지키고, 테스트를 돌린 뒤에만 끝내.') });
+  inst.value = session.instructions || '';
+  const field = (label, control, hint) => h('label', { class: 'field' }, h('span', { class: 'field-label' }, label), control, hint ? h('small', { class: 'muted' }, hint) : null);
+  modal(tr('이 세션 지침'), h('div', { class: 'form' },
+    field(tr('프로젝트 설명'), desc, tr('무엇을 만드는지 알려주면 AI가 맥락을 더 잘 잡습니다.')),
+    field(tr('작업 지침'), inst, tr('이 프로젝트에서 AI가 지킬 규칙입니다. 모든 요청에 자동으로 포함됩니다.')),
+    app.settings.codeInstructions?.trim() ? h('p', { class: 'muted small' }, tr('모든 Code 세션 공통 지침은 설정 → Code에서 바꿀 수 있습니다.')) : null),
+    { actions: [{ label: tr('취소') }, { label: tr('저장'), primary: true, onClick: () => {
+      session.description = desc.value.trim();
+      session.instructions = inst.value.trim();
+      save(session);
+      toast(tr('지침을 저장했습니다'));
+    } }] });
 }
 
 const normPath = (p) => String(p || '').replace(/\\/g, '/').replace(/^(\.\/|\/)+/, '').replace(/\/+$/, '').trim();
@@ -191,7 +216,7 @@ function save(session) {
 }
 
 function newSession(title = tr('새 세션'), extra = {}) {
-  const s = { id: uid(), title, kind: 'browser', root: null, createdAt: Date.now(), updatedAt: Date.now(), files: {}, history: [], historyProvider: null, log: [], todos: [], usage: { input: 0, output: 0 }, ...extra };
+  const s = { id: uid(), title, kind: 'browser', root: null, createdAt: Date.now(), updatedAt: Date.now(), files: {}, history: [], historyProvider: null, log: [], todos: [], usage: { input: 0, output: 0 }, description: '', instructions: '', ...extra };
   app.code.unshift(s);
   persist('code');
   emit('code');
@@ -1034,7 +1059,8 @@ export function renderCodeSession(container, id) {
         h('div', { class: 'cc-bar' }, modeBtn, local ? h('span', { class: 'cwd', title: session.root }, session.root) : null, h('div', { class: 'spacer' }), status))),
     wsPanel);
   const wsToggle = iconBtn('sidebar', tr('작업 공간 패널'), () => split.classList.toggle('ws-hidden'));
-  container.replaceChildren(h('div', { class: 'code-view' }, topbar(h('a', { class: 'crumb', href: '#/code' }, h('span', { html: icon('terminal', 15) }), 'Code', h('span', { class: 'sep' }, '/')), titleBtn, h('div', { class: 'spacer' }), wsToggle), split));
+  const instrBtn = h('button', { class: 'btn ghost sm code-instr-btn', onclick: () => codeInstructionsDialog(session), title: tr('이 세션의 설명·지침 설정') }, h('span', { html: icon('sliders', 15) }), h('span', { class: 'hide-sm' }, tr('지침')));
+  container.replaceChildren(h('div', { class: 'code-view' }, topbar(h('a', { class: 'crumb', href: '#/code' }, h('span', { html: icon('terminal', 15) }), 'Code', h('span', { class: 'sep' }, '/')), titleBtn, h('div', { class: 'spacer' }), instrBtn, wsToggle), split));
   if (window.innerWidth < 900) split.classList.add('ws-hidden');
 
   view = { sessionId: id, titleBtn, log, logScroll, todos, input, sendBtn, modeBtn, status, fileList, editor, editorPath, editorDel, wsTabs, filesPane, previewBox, previewWrap, urlInput, wsTab: 'files', selected: null, flash: null };

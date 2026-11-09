@@ -52,6 +52,7 @@ export const DEFAULT_SETTINGS = {
   systemPrompt: '',
   sidebarCollapsed: false,
   codeMode: 'ask',
+  codeInstructions: '',
   memoryEnabled: true,
   memories: [],
   serverUrl: '',

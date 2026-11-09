@@ -645,6 +645,8 @@ body.login-mode .sidebar, body.login-mode .scrim { display: none; }
 .announce .icon-btn { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); }
 body:has(.announce) .app { height: calc(100dvh - 37px); }
 
+.code-instr-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; font-size: 13px; }
+
 /* usage limits */
 .btn.small { padding: 5px 10px; font-size: 13px; gap: 6px; display: inline-flex; align-items: center; }
 .limit-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; }

@@ -146,6 +146,9 @@ function advancedTab() {
   const sys = h('textarea', { rows: 5, placeholder: tr('모든 채팅에 추가할 지침') });
   sys.value = s.systemPrompt;
   sys.addEventListener('input', () => { s.systemPrompt = sys.value; save(); });
+  const codeInstr = h('textarea', { rows: 4, placeholder: tr('예: 항상 한국어로 설명하고, 커밋 전에 테스트를 돌려줘') });
+  codeInstr.value = s.codeInstructions || '';
+  codeInstr.addEventListener('input', () => { s.codeInstructions = codeInstr.value; save(); });
   const num = (key, label, min, max, step, hint) => {
     const input = h('input', { type: 'number', min, max, step, placeholder: tr('모델 기본값') });
     if (s.params[key] != null) input.value = s.params[key];
@@ -157,7 +160,8 @@ function advancedTab() {
     return field(label, input, hint);
   };
   return h('div', { class: 'form' },
-    field(tr('추가 시스템 프롬프트'), sys),
+    field(tr('추가 시스템 프롬프트'), sys, tr('모든 채팅에 포함됩니다.')),
+    field(tr('Code 공통 지침'), codeInstr, tr('모든 Code 세션에 자동으로 포함됩니다. 세션별 설명·지침은 Code 화면의 "지침" 버튼에서 설정하세요.')),
     h('div', { class: 'grid3' },
       num('temperature', 'Temperature', 0, 2, 0.05, tr('0~2, 비우면 기본값')),
       num('topP', 'Top P', 0, 1, 0.01, '0~1'),

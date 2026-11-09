@@ -170,6 +170,20 @@ function toGeminiContents(messages) {
   });
 }
 
+// Gemini Interactions API input: a Step array of user_input / model_output turns with typed content blocks.
+function toInteractionInput(messages) {
+  return messages.map((m) => {
+    const content = [];
+    for (const f of m.files || []) {
+      if (/^image\//.test(f.mimeType)) content.push({ type: 'image', mime_type: f.mimeType, data: f.data });
+      else if (f.mimeType === 'application/pdf') content.push({ type: 'document', mime_type: f.mimeType, data: f.data });
+    }
+    if (m.text) content.push({ type: 'text', text: m.text });
+    if (!content.length) content.push({ type: 'text', text: ' ' });
+    return { type: m.role === 'assistant' ? 'model_output' : 'user_input', content };
+  });
+}
+
 function toOpenAIMessages(messages, systemPrompt) {
   const out = [];
   if (systemPrompt) out.push({ role: 'system', content: systemPrompt });
@@ -205,26 +219,27 @@ async function handleChat(request, env, body) {
   }
 
   if (provider.type === 'gemini') {
-    const generationConfig = {};
-    if (p.temperature != null) generationConfig.temperature = p.temperature;
-    if (p.topP != null) generationConfig.topP = p.topP;
-    if (p.maxTokens != null) generationConfig.maxOutputTokens = p.maxTokens;
-    if (/image/i.test(model)) generationConfig.responseModalities = ['TEXT', 'IMAGE'];
-    if (tools.thinking) generationConfig.thinkingConfig = { includeThoughts: true };
-    const geminiTools = [];
-    if (tools.search) geminiTools.push({ googleSearch: {} });
-    if (tools.urlContext) geminiTools.push({ urlContext: {} });
-    if (tools.codeExecution) geminiTools.push({ codeExecution: {} });
-    const payload = { contents: toGeminiContents(messages), generationConfig };
-    if (body.systemPrompt) payload.systemInstruction = { parts: [{ text: body.systemPrompt }] };
-    if (geminiTools.length) payload.tools = geminiTools;
-    const res = await fetch(GEMINI_BASE + '/models/' + model + ':streamGenerateContent?alt=sse', {
+    // Gemini Interactions API — the default since 2026, replacing streamGenerateContent (which hangs/times out
+    // on Gemini 3+ models). POST /v1beta/interactions, streaming via "stream": true (SSE with event_type).
+    const payload = { model, input: toInteractionInput(messages), stream: true };
+    if (body.systemPrompt) payload.system_instruction = body.systemPrompt;
+    const gc = {};
+    if (p.maxTokens != null) gc.max_output_tokens = p.maxTokens;
+    if (tools.thinking) gc.thinking_summaries = 'auto';
+    // temperature / top_p / top_k are deprecated on Gemini 3+ and must not be sent.
+    if (Object.keys(gc).length) payload.generation_config = gc;
+    const t = [];
+    if (tools.search) t.push({ type: 'google_search' });
+    if (tools.urlContext) t.push({ type: 'url_context' });
+    if (tools.codeExecution) t.push({ type: 'code_execution' });
+    if (t.length) payload.tools = t;
+    const res = await fetch(GEMINI_BASE + '/interactions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
       body: JSON.stringify(payload),
     });
     if (!res.ok) return upstreamError(res);
-    return sseResponse(res, parseGeminiChunk, parseLimits(res.headers));
+    return sseResponse(res, parseInteractionChunk, parseLimits(res.headers));
   }
 
   const payload = { model, stream: true, messages: toOpenAIMessages(messages, body.systemPrompt) };
@@ -257,6 +272,30 @@ function parseGeminiChunk(j) {
   if (j.promptFeedback?.blockReason) out.push({ type: 'error', message: '차단됨: ' + j.promptFeedback.blockReason });
   const u = j.usageMetadata;
   if (u) out.push({ type: 'usage', input: u.promptTokenCount || 0, output: (u.candidatesTokenCount || 0) + (u.thoughtsTokenCount || 0), total: u.totalTokenCount || 0 });
+  return out;
+}
+
+// Gemini Interactions API streaming events (event_type + data). Text arrives as step.delta {type:'text'},
+// final usage on interaction.completed, errors as an 'error' event.
+function parseInteractionChunk(j) {
+  const out = [];
+  if (j.error || j.event_type === 'error') {
+    const e = j.error || {};
+    const status = e.code === 'authentication' ? 401 : e.code === 'permission_denied' ? 403 : e.code === 'payment_required' ? 402 : 0;
+    out.push({ type: 'error', message: e.message || 'Gemini 오류', limit: classifyLimit(status, (e.code || '') + ' ' + (e.message || '')) });
+  }
+  if (j.event_type === 'step.delta' && j.delta) {
+    const d = j.delta;
+    if (d.type === 'text' && d.text) out.push({ type: 'text', text: d.text });
+    else if (d.type === 'thought_summary') out.push({ type: 'thought', text: d.content?.text || d.text || '' });
+    else if (d.type === 'image' && d.data) out.push({ type: 'image', mimeType: d.mime_type, data: d.data });
+  }
+  if (j.event_type === 'interaction.completed') {
+    const inter = j.interaction || {};
+    const u = inter.usage;
+    if (u) out.push({ type: 'usage', input: u.total_input_tokens || 0, output: (u.total_output_tokens || 0) + (u.total_thought_tokens || 0), total: u.total_tokens || 0 });
+    if (inter.status && inter.status !== 'completed') out.push({ type: 'finish', reason: inter.status });
+  }
   return out;
 }
 

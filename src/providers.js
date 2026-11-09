@@ -6,7 +6,7 @@ export const PROVIDERS = {
   openai: { name: 'OpenAI', company: 'OpenAI', type: 'openai', base: 'https://api.openai.com/v1', envKey: 'OPENAI_API_KEY', icon: 'openai', maxTokensParam: 'max_completion_tokens', streamUsage: true, keyUrl: 'https://platform.openai.com/api-keys',
     models: ['gpt-6-astra', 'gpt-6.1-sol', 'gpt-6.1-terra', 'gpt-6-luna'] },
   gemini: { name: 'Gemini', company: 'Google', type: 'gemini', envKey: 'GEMINI_API_KEY', icon: 'gemini', keyUrl: 'https://aistudio.google.com/apikey',
-    models: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.5-flash-lite', 'gemini-2.5-flash-image'] },
+    models: ['gemini-3.8-flash', 'gemini-3.8-pro'] },
   xai: { name: 'Grok', company: 'xAI', type: 'openai', base: 'https://api.x.ai/v1', envKey: 'XAI_API_KEY', icon: 'grok', keyUrl: 'https://console.x.ai',
     models: ['grok-4.7', 'grok-4.6', 'grok-4.20-0309-reasoning', 'grok-4.20-0309-non-reasoning'] },
   deepseek: { name: 'DeepSeek', company: 'DeepSeek', type: 'openai', base: 'https://api.deepseek.com', envKey: 'DEEPSEEK_API_KEY', icon: 'deepseek', streamUsage: true, keyUrl: 'https://platform.deepseek.com/api_keys',

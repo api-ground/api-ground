@@ -278,6 +278,13 @@ function createWindow() {
   });
   if (state.maximized) win.maximize();
   win.once('ready-to-show', () => win.show());
+  // Safety net: never let the window get stuck hidden in the background. If the first paint doesn't fire
+  // (slow or failed load), show it anyway after a short delay, and show it on a load failure too.
+  const forceShow = setTimeout(() => { if (win && !win.isDestroyed() && !win.isVisible()) win.show(); }, 2500);
+  win.once('show', () => clearTimeout(forceShow));
+  win.webContents.on('did-fail-load', (_e, _code, _desc, _url, isMainFrame) => {
+    if (isMainFrame && win && !win.isDestroyed() && !win.isVisible()) win.show();
+  });
   win.loadURL('app://local/app.html');
   win.webContents.on('did-finish-load', () => {
     if (pendingDeepLink) { const l = pendingDeepLink; pendingDeepLink = null; setTimeout(() => deliverDeepLink(l), 800); }
@@ -301,7 +308,9 @@ function createWindow() {
 app.on('second-instance', (e, argv) => {
   const link = argv.find((a) => a.startsWith('apiground://'));
   if (link) deliverDeepLink(link);
-  else if (win) { if (win.isMinimized()) win.restore(); win.focus(); }
+  // Bring the existing window back (show it even if it was stuck hidden); recreate it if it was closed.
+  if (win && !win.isDestroyed()) { if (!win.isVisible()) win.show(); if (win.isMinimized()) win.restore(); win.focus(); }
+  else createWindow();
 });
 app.on('open-url', (e, url) => { e.preventDefault(); deliverDeepLink(url); });
 
